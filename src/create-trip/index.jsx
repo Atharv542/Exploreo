@@ -184,7 +184,7 @@ function CreateTrip() {
                      <DialogHeader>
                     
                    <DialogDescription>
-                          <img src="/logo.svg"></img>
+                          <h1 className="font-extrabold text-3xl text-orange-500">Exploreo 🛤️</h1>
                           <h2 className='font-bold text-lg mt-7'>Sign with Google</h2>
                           <p>Sign in to the  with Google authentication securely</p>
 
