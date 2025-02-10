@@ -25,3 +25,6 @@
 #Create Trip
 
 ![CreateTrip](./Screenshot%202025-02-10%20222044.png)
+
+#MyTrips
+![MyTrips](./Screenshot%202025-02-10%20231007.png)
