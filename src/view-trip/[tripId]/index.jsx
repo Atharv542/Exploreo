@@ -9,36 +9,49 @@ import PlacesToVisit from "../components/PlacesToVisit";
 import Footer from "../components/Footer";
 
 function ViewTrip() {
-  const { tripId } = useParams(); // helps to find the id generated in the url when user comes to this page
-  const[trip,setTrip]=useState([]);
-  useEffect(() => {
-    tripId && GetTripData(); //this means when ever this view-trip page renders then getTripData function executes and it only execute whenever there is trip id.
-  }, [tripId]);
-  const GetTripData = async () => {
-    const docRef = doc(db, "AI-TRIPS", tripId);
-    const docSnap = await getDoc(docRef);
+  const { tripId } = useParams(); // Get trip ID from the route URL
+  const [trip, setTrip] = useState(null); // Initialize state to null for better condition checks
 
-    if (docSnap.exists()) {
-      console.log("Document:", docSnap.data());
-      setTrip(docSnap.data());
-    } else {
-      console.log("No such document");
-      toast("No Trip Found");
+  useEffect(() => {
+    if (tripId) {
+      GetTripData();
+    }
+  }, [tripId]);
+
+  const GetTripData = async () => {
+    try {
+      const docRef = doc(db, "AI-TRIPS", tripId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        setTrip(docSnap.data());
+      } else {
+        console.error("No such document");
+        toast.error("No Trip Found");
+      }
+    } catch (error) {
+      console.error("Error fetching trip data:", error);
+      toast.error("An error occurred while fetching trip details");
     }
   };
 
   return (
     <div className="p-10 md:px-20 lg:px-44 xl:px-56">
-        {/*Information Section*/}
-        <InfoSection trip={trip}/>
-        {/*Recommended Hotels*/}
-        <Hotel trip={trip}/>
-        {/*Daily Plans*/}
-        <PlacesToVisit trip={trip}/>
-        {/*Footer*/}
-        <Footer trip={trip}/>
+      {/* Conditional Rendering */}
+      {trip ? (
+        <>
+          <InfoSection trip={trip} />
+          <Hotel trip={trip} />
+          <PlacesToVisit trip={trip} />
+          <Footer trip={trip} />
+        </>
+      ) : (
+        <p className="text-center text-gray-600">Loading trip details...</p>
+      )}
     </div>
-  ) 
+  );
 }
 
 export default ViewTrip;
+
