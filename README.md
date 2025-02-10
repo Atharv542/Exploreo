@@ -19,5 +19,7 @@
 - **API Integration:** Google Places API  
 
   #HomePage
-  
+
+  ![Home Page](./Screenshot%202025-02-10%222012.png)
+
 
