@@ -22,4 +22,6 @@
 
   ![Home Page](./Screenshot%202025-02-10%20222012.png)
 
+#Create Trip
 
+![CreateTrip](./Screenshot%202025-02-10%20222044.png)
