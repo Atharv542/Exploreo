@@ -20,6 +20,6 @@
 
   #HomePage
 
-  ![Home Page](./Screenshot%202025-02-10%222012.png)
+  ![Home Page](./Screenshot%202025-02-10%20222012.png)
 
 
