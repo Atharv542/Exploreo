@@ -121,7 +121,7 @@ function CreateTrip() {
   return (
     <div className='sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mx-72 mt-10'>
         <h2 className=' text-3xl font-bold'>Tell us your travel preferences🌴🏕️</h2>
-        <p className='mt-3 text-gray-500 text-xl'>Just provid some basic information,and our trip planner will generate a customized itinerary baed on your preferences.</p>
+        <p className='mt-3 text-gray-500 text-xl'>Just provide some basic information,and our trip planner will generate a customized itinerary based on your preferences.</p>
         <div className='mt-20 flex flex-col gap-10'>
             <div className=''>
                 <h2 className='font-md text-xl my-3'>What is destination of choice?</h2>
@@ -162,7 +162,7 @@ function CreateTrip() {
             </div>
 
             <div>
-            <h2 className='font-md text-xl my-3'>Whp do you plan on travelling with on your next adventure?</h2>
+            <h2 className='font-md text-xl my-3'>Who do you plan on travelling with on your next adventure?</h2>
             <div className='grid grid-cols-3 gap-5 mt-5'>
               {SelectTravelesList.map((item,index)=>(
                 <div key={index} onClick={()=>handleInputChange('traveler',item.people)} className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.traveler==item.people&&'shadow-lg border-black'} `}>
@@ -185,7 +185,7 @@ function CreateTrip() {
                     
                    <DialogDescription>
                           <h1 className="font-extrabold text-3xl text-orange-500">Exploreo 🛤️</h1>
-                          <h2 className='font-bold text-lg mt-7'>Sign with Google</h2>
+                          <h2 className='font-bold text-lg mt-7'>Sign in with Google</h2>
                           <p>Sign in to the  with Google authentication securely</p>
 
                           <Button onClick={login} className="w-full m-5 flex gap-4 items-center justify-center" ><FcGoogle className='w-7 h-7'/>
