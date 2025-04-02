@@ -119,88 +119,83 @@ function CreateTrip() {
     })
   }
   return (
-    <div className='sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mx-72 mt-10'>
-        <h2 className=' text-3xl font-bold'>Tell us your travel preferences🌴🏕️</h2>
-        <p className='mt-3 text-gray-500 text-xl'>Just provide some basic information,and our trip planner will generate a customized itinerary based on your preferences.</p>
-        <div className='mt-20 flex flex-col gap-10'>
-            <div className=''>
-                <h2 className='font-md text-xl my-3'>What is destination of choice?</h2>
-                <ReactGoogleAutocomplete className='w-11/12 py-2 border border-gray-200 rounded-md'
-                    placeholder={'Select'}
-                    apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-                    onPlaceSelected={handlePlaceSelected} 
-                    
-                    
-                      
-                />
-                {/*<input
-                      type="text"
-                      value={place}
-                      onChange={(e) => {
-                      setPlace(e.target.value); // Update place
-                      handleInputChange('location', e.target.value); // Update formData dynamically
-                      }}
-                      placeholder="Search location"
-                       />*/}
+    <div className='px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 mx-auto max-w-5xl mt-10'>
+    <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center'>Tell us your travel preferences 🌴🏕️</h2>
+    <p className='mt-3 text-gray-500 text-sm sm:text-base md:text-lg text-center'>
+        Provide some basic information, and our trip planner will generate a customized itinerary for you.
+    </p>
+    <div className='mt-10 flex flex-col gap-6'>
+        <div>
+            <h2 className='font-medium text-lg sm:text-xl my-2'>Destination of choice?</h2>
+            <ReactGoogleAutocomplete 
+                className='w-full py-2 border border-gray-300 rounded-md px-3' 
+                placeholder='Select' 
+                apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY} 
+                onPlaceSelected={(place) => handleInputChange('location', place)} 
+            />
+        </div>
+        <div>
+            <h2 className='font-medium text-lg sm:text-xl my-2'>How many days are you planning?</h2>
+            <Input 
+                type='number' 
+                placeholder='Ex. 3' 
+                className='w-full rounded-md border border-gray-300 py-2 px-3' 
+                onChange={(e) => handleInputChange('noOfDays', e.target.value)}
+            />
+        </div>
+        <div>
+            <h2 className='font-medium text-lg sm:text-xl my-2'>What is your budget?</h2>
+            <div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
+                {SelectBudgetOptions.map((item, index) => (
+                    <div 
+                        key={index} 
+                        onClick={() => handleInputChange('budget', item.title)} 
+                        className={`p-4 border cursor-pointer rounded-lg hover:shadow-md text-center ${formData?.budget === item.title ? 'shadow-md border-black' : ''}`}>
+                        <h2 className='text-3xl'>{item.icon}</h2>
+                        <h2 className='font-bold text-base sm:text-lg'>{item.title}</h2>
+                        <p className='text-xs sm:text-sm text-gray-500'>{item.desc}</p>
+                    </div>
+                ))}
             </div>
-            <div>
-            <h2 className='font-md text-xl my-3'>How many days are you planning your trip?</h2>
-            <Input placeholder={'Ex.3'} type='number' className='w-11/12  rounded-md'
-                 onChange={(e)=>handleInputChange('noOfDays',e.target.value)} />
+        </div>
+        <div>
+            <h2 className='font-medium text-lg sm:text-xl my-2'>Who are you traveling with?</h2>
+            <div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
+                {SelectTravelesList.map((item, index) => (
+                    <div 
+                        key={index} 
+                        onClick={() => handleInputChange('traveler', item.people)} 
+                        className={`p-4 border cursor-pointer rounded-lg hover:shadow-md text-center ${formData?.traveler === item.people ? 'shadow-md border-black' : ''}`}>
+                        <h2 className='text-3xl'>{item.icon}</h2>
+                        <h2 className='font-bold text-base sm:text-lg'>{item.title}</h2>
+                        <p className='text-xs sm:text-sm text-gray-500'>{item.desc}</p>
+                    </div>
+                ))}
             </div>
-            <div>
-            <h2 className='font-md text-xl my-3'>What is your budget?</h2>
-            <div className='grid grid-cols-3 gap-5 mt-5'>
-              {SelectBudgetOptions.map((item,index)=>(
-                <div key={index} onClick={()=>handleInputChange('budget',item.title)} className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.budget==item.title&&'shadow-lg border-black'} `}>
-                   <h2 className='text-4xl'>{item.icon}</h2>
-                   <h2 className='font-bold text-lg'>{item.title}</h2>
-                   <h2 className='tex-sm text-gray-500'>{item.desc}</h2>
-                </div>
-              ))}
-            </div>
-            </div>
-
-            <div>
-            <h2 className='font-md text-xl my-3'>Who do you plan on travelling with on your next adventure?</h2>
-            <div className='grid grid-cols-3 gap-5 mt-5'>
-              {SelectTravelesList.map((item,index)=>(
-                <div key={index} onClick={()=>handleInputChange('traveler',item.people)} className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.traveler==item.people&&'shadow-lg border-black'} `}>
-                   <h2 className='text-4xl'>{item.icon}</h2>
-                   <h2 className='font-bold text-lg'>{item.title}</h2>
-                   <h2 className='tex-sm text-gray-500'>{item.desc}</h2>
-                </div>
-              ))}
-            </div>
-            <div className='my-10 justify-end flex '>
-              <Button onClick={OnGenerateTrip} disabled={loading}>
-               {loading?<AiOutlineLoading3Quarters className='w-7 h-7 animate-spin'/>:" Generate Trip"}
-              </Button>
-            </div>
-
-            <Dialog open={openDailog}>
-                
-                    <DialogContent>
-                     <DialogHeader>
-                    
-                   <DialogDescription>
-                          <h1 className="font-extrabold text-3xl text-orange-500">Exploreo 🛤️</h1>
-                          <h2 className='font-bold text-lg mt-7'>Sign in with Google</h2>
-                          <p>Sign in to the  with Google authentication securely</p>
-
-                          <Button onClick={login} className="w-full m-5 flex gap-4 items-center justify-center" ><FcGoogle className='w-7 h-7'/>
-                          Sign In with Google</Button>
-                    </DialogDescription>
-                    </DialogHeader>
-                   </DialogContent>
-            </Dialog>
-
-            
-            </div>
-
-
+        </div>
+        <div className='flex justify-center mt-8'>
+            <Button onClick={OnGenerateTrip} disabled={loading} className='px-6 py-2 text-lg'>
+                {loading ? <AiOutlineLoading3Quarters className='animate-spin w-5 h-5' /> : 'Generate Trip'}
+            </Button>
         </div>
     </div>
+    <Dialog open={openDailog}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogDescription>
+                    <h1 className='font-extrabold text-3xl text-orange-500 text-center'>Exploreo 🛤️</h1>
+                    <h2 className='font-bold text-lg mt-5 text-center'>Sign in with Google</h2>
+                    <p className='text-center text-gray-600'>Sign in securely with Google authentication.</p>
+                    <div className='flex justify-center mt-5'>
+                        <Button onClick={() => {}} className='w-full flex gap-4 items-center justify-center'>
+                            <FcGoogle className='w-6 h-6' /> Sign In with Google
+                        </Button>
+                    </div>
+                </DialogDescription>
+            </DialogHeader>
+        </DialogContent>
+    </Dialog>
+</div>
   )
 }
 
