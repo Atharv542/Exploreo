@@ -19,10 +19,12 @@ import { useState } from 'react'
 import axios from 'axios'
 import { FcGoogle } from "react-icons/fc";
 import { MdExplore } from "react-icons/md";
+import { IoMdMenu } from "react-icons/io";
 
 
 function Header() {
   const [openDailog,setOpenDailog]=useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const user=JSON.parse(localStorage.getItem('user'))
   useEffect(()=>{
     console.log(user);
@@ -49,55 +51,96 @@ function Header() {
   }
   
   return (
-    <div className='p-3 shadow-sm flex justify-between items-center px-5'>
-      <a href='/'>
+    <div className="p-3 shadow-sm flex justify-between items-center px-5 bg-white">
+    {/* Logo */}
+    <a href="/" className="flex items-center">
       <h1 className="font-extrabold text-3xl text-orange-500">Exploreo 🛤️</h1>
-      </a>
-      
-      <div>
-        { user?
-          <div className='flex items-center gap-3'>
-          <a href='createTrip'>
-            <Button variant="outline" className='rounded-full'>+ Create Trip</Button>
-            </a>
-            <a href='/my-trips'>
-            <Button variant="outline" className='rounded-full'>My Trips</Button>
-            </a>
-            
-            
-            <Popover>
-              <PopoverTrigger><img src={user.picture} className='rounded-full w-[35px] h-[35px]'></img></PopoverTrigger>
-              <PopoverContent><h2 className='cursor-pointer' onClick={()=>{
+    </a>
+
+    {/* Desktop Menu */}
+    <div className="hidden md:flex items-center gap-3">
+      {user ? (
+        <>
+          <a href="/createTrip">
+            <Button variant="outline" className="rounded-full">+ Create Trip</Button>
+          </a>
+          <a href="/my-trips">
+            <Button variant="outline" className="rounded-full">My Trips</Button>
+          </a>
+          <Popover>
+            <PopoverTrigger>
+              <img src={user.picture} className="rounded-full w-[35px] h-[35px]" alt="User" />
+            </PopoverTrigger>
+            <PopoverContent>
+              <h2 className="cursor-pointer" onClick={() => {
                 googleLogout();
                 localStorage.clear();
                 window.location.reload();
-                
-              
-              }}>Logout</h2></PopoverContent>
-            </Popover>
-
-          </div>:
-          <Button onClick={()=>setOpenDailog(true)}>Sign In</Button>
-        }
-        </div>
-        <Dialog open={openDailog}>
-                
-                    <DialogContent>
-                     <DialogHeader>
-                    
-                   <DialogDescription>
-                          <img src="/logo.svg"></img>
-                          <h2 className='font-bold text-lg mt-7'>Sign with Google</h2>
-                          <p>Sign in to the  with Google authentication securely</p>
-
-                          <Button onClick={login} className="w-full m-5 flex gap-4 items-center justify-center" ><FcGoogle className='w-7 h-7'/>
-                          Sign In with Google</Button>
-                    </DialogDescription>
-                    </DialogHeader>
-                   </DialogContent>
-            </Dialog>
-        
+              }}>
+                Logout
+              </h2>
+            </PopoverContent>
+          </Popover>
+        </>
+      ) : (
+        <Button onClick={() => setOpenDailog(true)}>Sign In</Button>
+      )}
     </div>
+
+    {/* Mobile Menu Button */}
+    <div className="md:hidden">
+      <IoMdMenu className="text-2xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} />
+    </div>
+
+    {/* Mobile Menu */}
+    {menuOpen && (
+      <div className="absolute top-16 right-5 bg-white shadow-md rounded-lg p-4 flex flex-col items-center space-y-3 md:hidden">
+        {user ? (
+          <>
+            <a href="/createTrip">
+              <Button variant="outline" className="rounded-full w-full">+ Create Trip</Button>
+            </a>
+            <a href="/my-trips">
+              <Button variant="outline" className="rounded-full w-full">My Trips</Button>
+            </a>
+            <Popover>
+              <PopoverTrigger>
+                <img src={user.picture} className="rounded-full w-[35px] h-[35px]" alt="User" />
+              </PopoverTrigger>
+              <PopoverContent>
+                <h2 className="cursor-pointer text-center" onClick={() => {
+                  googleLogout();
+                  localStorage.clear();
+                  window.location.reload();
+                }}>
+                  Logout
+                </h2>
+              </PopoverContent>
+            </Popover>
+          </>
+        ) : (
+          <Button onClick={() => setOpenDailog(true)} className="w-full">Sign In</Button>
+        )}
+      </div>
+    )}
+
+    {/* Sign In Dialog */}
+    <Dialog open={openDailog} onOpenChange={setOpenDailog}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogDescription>
+            <img src="/logo.svg" alt="Logo" className="mx-auto"/>
+            <h2 className="font-bold text-lg mt-7 text-center">Sign in with Google</h2>
+            <p className="text-center">Sign in securely using Google authentication</p>
+            <Button onClick={login} className="w-full mt-5 flex gap-4 items-center justify-center">
+              <FcGoogle className="w-7 h-7" />
+              Sign In with Google
+            </Button>
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  </div>
   )
 }
 
